@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            TodoList
+        </title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+            }
+            #header{
+                width:100%;
+                height:100px;
+                background-color: black;
+                color: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #forms{
+                width:50%;
+                margin: 20px 25%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            #todolist{
+                width:60%;
+                min-height: 250px;
+                margin: 20px 20%;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .singleTodo{
+                width:80%;
+                height:100px;
+                margin: 20px 10%;
+                background-color: black;
+                color: white;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+			@media only screen and(max-width:1024px){
+			 #header{
+			 height:200px;
+			 }
+			 #forms{
+			        font-size:40px;
+				}
+				#todolist{
+				           height:500px;
+						   }
+						  }
+        </style>
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                TodoList
+            </div>
+        </div>
+        <div id="forms">
+            <form>
+                <input type="text" placeholder="Todo Title" id="title">
+                <button id="addTaskBtn">Add Task</button>
+            </form>
+        </div>
+        <div id="todolist">
+            
+        </div>
+    </body>
+    <script>
+        var title=document.getElementById("title");
+        var addTaskBtn=document.getElementById("addTaskBtn");
+        var todolist=document.getElementById("todolist");
+
+        //define todo array
+        var todo=[];
+
+        //add event on add task btn to add task to todolist
+        addTaskBtn.addEventListener("click",function(e){
+            e.preventDefault();
+
+            todo.push(title.value);
+            console.log(todo);
+            title.value="";
+            renderList();
+        })
+		
+		 //function delete 1
+        function delete1(index){
+            var newTodo=[];
+            for(let i=0;i<todo.length;i++){
+                if(i!=index){
+                    newTodo.push(todo[i]);
+                }
+            }
+            console.log(todo);
+            todo=newTodo;
+            renderList();
+        }
+        //function edit 1
+        function edit1(index){
+            title.value=todo[index];
+            delete1(index);
+        }
+
+        //create renderlist method
+        function renderList(){
+            var res="";
+            for(let i=0;i<todo.length;i++){
+                var single=todo[i];
+                var html=`<div class="singleTodo">
+                            <div class="todoTitle">
+                                ${single}
+                            </div>
+                            <div class="buttons">
+                                <button onclick=edit1(${i})>Edit</button>
+                                <button  onclick=delete1(${i})>Delete</button>
+                            </div>
+                        </div>            `
+                res+=html;
+            }
+            console.log("res=",res);
+            todolist.innerHTML=res;
+        }
+    </script>
+</html>
